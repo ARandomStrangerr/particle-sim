@@ -20,19 +20,19 @@ void CircleObject::accelerate(float a_x, float a_y) {
 void CircleObject::stayInsideScreen(float bound_x, float bound_y) {
 	if (this->shape.getPosition().x < 0){
 		this->previousPosition = this->currentPosition;
-		this->currentPosition = {0, this->currentPosition.y};
+		// this->currentPosition = {0, this->currentPosition.y};
 	}
 	if (this->shape.getPosition().y < 0) {
 		this->previousPosition = this ->currentPosition;
-		this->currentPosition = {this->currentPosition.x, 0};
+		// this->currentPosition = {this->currentPosition.x, 0};
 	}
 	if (this->shape.getPosition().x + 2 * this->shape.getRadius() > bound_x) {
 		this->previousPosition = this ->currentPosition;
-		this->currentPosition = {bound_x - 2 * this->shape.getRadius(), this->currentPosition.y};
+		// this->currentPosition = {bound_x - 2 * this->shape.getRadius(), this->currentPosition.y};
 	}
 	if (this->shape.getPosition().y + 2 * this->shape.getRadius() > bound_y) {
 		this->previousPosition = this ->currentPosition;
-		this->currentPosition = {this->currentPosition.x, bound_y - 2 * this->shape.getRadius()};
+		// this->currentPosition = {this->currentPosition.x, bound_y - 2 * this->shape.getRadius()};
 	}
 }
 

@@ -21,10 +21,10 @@ void staticObject() {
 }
 
 void constantVelocityObject() {
-	float dt = 0.06;
+	float dt = 0.01;
 
 	// if we move A units buy 1 sec, then we move A*dt units by dt sec
-	CircleObject object (10, 10, 30, sf::Color(205,180,219), 50*dt, 50*dt);
+	CircleObject object (10, 10, 30, sf::Color(205,180,219), 500*dt, 500*dt);
 
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Draw An Object with Constant Velocity");
 
@@ -42,6 +42,7 @@ void constantVelocityObject() {
 		if (startSimulation) {
 			window.clear();
 			window.draw(object.getShape());
+			object.stayInsideScreen(800, 600);
 			object.move(dt); // calculate the object position after dt second
 			window.display();
 			std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(dt * 1000))); //sleep for that much time before updating
