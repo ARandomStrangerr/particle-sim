@@ -21,3 +21,12 @@ Let the object moves at velocity of A m/s, and $\Delta t = 1$; when we decrease 
 For the time: it is best by the following diagram:  
 |-- Calculation time --|-- Sleep time --| = $dt$, because drawing 1 object is super quick so the calculation time is neglectable; hence, we can just set the sleep time = $dt$.  
 ![constant velocity object illustration](https://github.com/ARandomStrangerr/particle-sim/blob/main/constantVelocity.gif)
+## Make the Moving Object Stay Inside Screen
+to make the ball stay inside the screen, when the ball goes out of the screen, we set its position again to be inside
+![object stay insde screen](https://github.com/ARandomStrangerr/particle-sim/blob/main/constantVelocityStayInScreen.gif)  
+As we can see, there are two problems that we need to tackles:  
+- The ball should bounce
+- The ball should stay inside screen entirely.
+### Bouncy Ball
+When the ball is outside, we set the ball back to inside without updating the previous position, this result into a converges sequence to 0.
+To fix this, we set the perious position to be the current position outside of the box, and the current position to be inside the box "orthorgonally"
