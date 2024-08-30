@@ -33,3 +33,6 @@ To fix this, we set the perious position to be the current position outside of t
 ![object stay insde screen 2](https://github.com/ARandomStrangerr/particle-sim/blob/main/constantVectorStayInScreen1.gif)  
 Why the ball behave in such a weird way? Remember that we set the ball position back orthorgonally, meaning that we set the previous position to be outside, and whatever (x,y) component outside will be set inside.
 So now by looking the displacement vector, the object moving orthorgonal to the edges that it touches. The slanted agnle that we have before did not perseved with this method.  
+To preserve bouncing angle, instead of setting position back orthorgonally, we set previous position to be mirror of previous-previous position with the edge it bounced on.  
+![object stay inside screen 3](https://github.com/ARandomStrangerr/particle-sim/blob/main/constantVectorStayInScreen2.gif)  
+The results looks much better.
