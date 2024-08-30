@@ -29,4 +29,7 @@ As we can see, there are two problems that we need to tackles:
 - The ball should stay inside screen entirely.
 ### Bouncy Ball
 When the ball is outside, we set the ball back to inside without updating the previous position, this result into a converges sequence to 0.
-To fix this, we set the perious position to be the current position outside of the box, and the current position to be inside the box "orthorgonally"
+To fix this, we set the perious position to be the current position outside of the box, and the current position to be inside the box "orthorgonally"  
+![object stay insde screen 2](https://github.com/ARandomStrangerr/particle-sim/blob/main/constantVectorStayInScreen1.gif)  
+Why the ball behave in such a weird way? Remember that we set the ball position back orthorgonally, meaning that we set the previous position to be outside, and whatever (x,y) component outside will be set inside.
+So now by looking the displacement vector, the object moving orthorgonal to the edges that it touches. The slanted agnle that we have before did not perseved with this method.  
