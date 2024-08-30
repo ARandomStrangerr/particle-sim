@@ -53,7 +53,7 @@ void constantVelocityObject() {
 void freeFallObject() {
 	float dt = 0.01;
 
-	CircleObject object (10, 10, 10, sf::Color(205,180,219), 0, 0);
+	CircleObject object (30, 30, 10, sf::Color(205,180,219), 50*dt, 50*dt);
 
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Draw A Free Fall Object");
 
@@ -81,6 +81,6 @@ void freeFallObject() {
 }
 
 int main(){
-	constantVelocityObject();
+	freeFallObject();
 	return 0;
 }
