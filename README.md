@@ -36,3 +36,7 @@ So now by looking the displacement vector, the object moving orthorgonal to the 
 To preserve bouncing angle, instead of setting position back orthorgonally, we set previous position to be mirror of previous-previous position with the edge it bounced on.  
 ![object stay inside screen 3](https://github.com/ARandomStrangerr/particle-sim/blob/main/constantVectorStayInScreen2.gif)  
 The results looks much better.
+## Gravity
+Now, we can add gravity into the object, if you let the simulation keep running, the ball will never stop. this because we need to add friction.  
+![object stay inside screen 4](https://github.com/ARandomStrangerr/particle-sim/blob/main/constantVectorStayInScreen3.gif)  
+the important part is that remember to reset the acceleration since the code I create add the acceleration rather than just set it to a fixed vector.
