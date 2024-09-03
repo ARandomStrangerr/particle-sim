@@ -108,6 +108,8 @@ void twoObjects() {
 			object2.accelerate(0, 981);
 			object1.stayInsideScreen(800, 600);
 			object2.stayInsideScreen(800, 600);
+			object1.collide(object2);
+			object2.collide(object1);
 			object1.move(dt);
 			object2.move(dt);
 			window.display();

@@ -1,4 +1,6 @@
 #include "Particle.h"
+#include "SFML/System/Vector2.hpp"
+#include <cmath>
 
 CircleObject::CircleObject (float x, float y, float r, sf::Color color, float v_x, float v_y) : shape(r), previousPosition(x - v_x, y - v_y), currentPosition(x,y){
 	this->shape.setPosition(currentPosition);
@@ -33,6 +35,20 @@ void CircleObject::stayInsideScreen(float bound_x, float bound_y) {
 	if (this->shape.getPosition().y + 2 * this->shape.getRadius() > bound_y) {
 		this->previousPosition = {this->previousPosition.x, this->currentPosition.y};
 		this->currentPosition = {this->currentPosition.x, bound_y - 2 * this->shape.getRadius()};
+	}
+}
+
+void CircleObject::collide(CircleObject other){
+	sf::Vector2f displacement = other.currentPosition - this->currentPosition;
+	float displacementNorm = sqrt(displacement.x * displacement.x + displacement.y + displacement.y),
+				 minimumNorm = this->shape.getRadius() + other.shape.getRadius();
+	if (displacementNorm < minimumNorm){
+		float overlapNorm = minimumNorm - displacementNorm;
+		sf::Vector2f unitVector = displacement / displacementNorm;
+		this->previousPosition = this->currentPosition;
+		this->currentPosition = this->currentPosition - unitVector * (overlapNorm / 2);
+		other.previousPosition = other.currentPosition;
+		other.currentPosition = other.currentPosition + unitVector * (overlapNorm / 2);
 	}
 }
 
