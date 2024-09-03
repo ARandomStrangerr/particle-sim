@@ -40,3 +40,8 @@ The results looks much better.
 Now, we can add gravity into the object, if you let the simulation keep running, the ball will never stop. this because we need to add friction.  
 ![object stay inside screen 4](https://github.com/ARandomStrangerr/particle-sim/blob/main/constantVectorStayInScreen3.gif)  
 the important part is that remember to reset the acceleration since the code I create add the acceleration rather than just set it to a fixed vector.
+## Objects Collision
+now we move on to objects to collide to each others.
+first, create 2 objects.
+![objects not colides](https://github.com/ARandomStrangerr/particle-sim/blob/main/ScreenRecording2024-09-02at12.44.10AM-ezgif.com-video-to-gif-converter.gif)
+then, when 2 objects are overlap eachothers, we move each objects half of overlap distance to simulate that they are squished. 
