@@ -43,5 +43,9 @@ the important part is that remember to reset the acceleration since the code I c
 ## Objects Collision
 now we move on to objects to collide to each others.
 first, create 2 objects.
-![objects not colides](https://github.com/ARandomStrangerr/particle-sim/blob/main/ScreenRecording2024-09-02at12.44.10AM-ezgif.com-video-to-gif-converter.gif)  
+![objects not colides](https://github.com/ARandomStrangerr/particle-sim/blob/main/TwoObjects1.gif)  
 then, when 2 objects are overlap eachothers, we move each objects half of overlap distance to simulate that they are squished. 
+![objects collide](https://github.com/ARandomStrangerr/particle-sim/blob/main/TwoObjects2.gif)  
+The result is 2 balls bounce on each other when they touch.
+## Free simulation
+with balls can colide on each others and stay within display frame, we can try to simulate lots of them to see the performance.
