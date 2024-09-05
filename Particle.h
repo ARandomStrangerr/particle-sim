@@ -45,7 +45,7 @@ class CircleObject {
 		 * detech collision of this object with a given object
 		 * @CircleObject: the other object
 		 */
-		void collide(CircleObject);
+		void collide(CircleObject&);
 
 		/**
 		 * get the shape of this wrapper class to display on screen

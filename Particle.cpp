@@ -35,22 +35,40 @@ void CircleObject::stayInsideScreen(float bound_x, float bound_y) {
 	if (this->shape.getPosition().y + 2 * this->shape.getRadius() > bound_y) {
 		this->previousPosition = {this->previousPosition.x, this->currentPosition.y};
 		this->currentPosition = {this->currentPosition.x, bound_y - 2 * this->shape.getRadius()};
+		//std::cout << shape.getRadius() << " - (" << currentPosition.x << " " << currentPosition.y << ")" << std::endl;
 	}
 }
 
-void CircleObject::collide(CircleObject other){
-	sf::Vector2f displacement = other.currentPosition - this->currentPosition;
-	float displacementNorm = sqrt(displacement.x * displacement.x + displacement.y + displacement.y),
-				 minimumNorm = this->shape.getRadius() + other.shape.getRadius();
+
+void CircleObject::collide(CircleObject& other){
+	sf::Vector2f centerThisShape = shape.getPosition() + sf::Vector2f(shape.getRadius(), shape.getRadius()),
+		centerOtherShape = other.shape.getPosition() + sf::Vector2f(other.shape.getRadius(), other.shape.getRadius()),
+		displacement = centerOtherShape - centerThisShape;
+	float displacementNorm = std::hypot(displacement.x, displacement.y);
+	float minimumNorm = this->shape.getRadius() + other.shape.getRadius();
 	if (displacementNorm < minimumNorm){
 		float overlapNorm = minimumNorm - displacementNorm;
-		sf::Vector2f unitVector = displacement / displacementNorm;
-		this->previousPosition = this->currentPosition;
-		this->currentPosition = this->currentPosition - unitVector * (overlapNorm / 2);
-		other.previousPosition = other.currentPosition;
-		other.currentPosition = other.currentPosition + unitVector * (overlapNorm / 2);
+		sf::Vector2f corretion = displacement / displacementNorm * overlapNorm * .5f;
+		this->currentPosition -= corretion;
+		other.currentPosition += corretion;
+		this->shape.setPosition(this->currentPosition);
+		other.shape.setPosition(other.currentPosition);
 	}
 }
+// void applyCollision(CircleObject& other){
+// 	sf::Vector2f centerThisShape = shape.getPosition() + sf::Vector2f(shape.getRadius(), shape.getRadius()),
+// 	centerOtherShape = other.shape.getPosition() + sf::Vector2f(other.shape.getRadius(), other.shape.getRadius()),
+// 	displacement = centerOtherShape - centerThisShape;
+	// float distance = sqrt(pow(displacement.x,2) + pow(displacement.y,2));
+	// if (distance < shape.getRadius()+other.shape.getRadius()){
+	// 	float overlap = shape.getRadius() + other.shape.getRadius() - distance;
+	// 	sf::Vector2f correction = (displacement/distance) * overlap * .5f;
+	// 	currentPosition -= correction;
+	// 	shape.setPosition(currentPosition);
+	// 	other.currentPosition += correction;
+	// 	other.shape.setPosition(other.currentPosition);
+// 	}
+// }
 
 const sf::CircleShape CircleObject::getShape() const {
 	return this->shape;
