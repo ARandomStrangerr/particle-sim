@@ -39,7 +39,6 @@ void CircleObject::stayInsideScreen(float bound_x, float bound_y) {
 	}
 }
 
-
 void CircleObject::collide(CircleObject& other){
 	sf::Vector2f centerThisShape = shape.getPosition() + sf::Vector2f(shape.getRadius(), shape.getRadius()),
 		centerOtherShape = other.shape.getPosition() + sf::Vector2f(other.shape.getRadius(), other.shape.getRadius()),
@@ -55,20 +54,6 @@ void CircleObject::collide(CircleObject& other){
 		other.shape.setPosition(other.currentPosition);
 	}
 }
-// void applyCollision(CircleObject& other){
-// 	sf::Vector2f centerThisShape = shape.getPosition() + sf::Vector2f(shape.getRadius(), shape.getRadius()),
-// 	centerOtherShape = other.shape.getPosition() + sf::Vector2f(other.shape.getRadius(), other.shape.getRadius()),
-// 	displacement = centerOtherShape - centerThisShape;
-	// float distance = sqrt(pow(displacement.x,2) + pow(displacement.y,2));
-	// if (distance < shape.getRadius()+other.shape.getRadius()){
-	// 	float overlap = shape.getRadius() + other.shape.getRadius() - distance;
-	// 	sf::Vector2f correction = (displacement/distance) * overlap * .5f;
-	// 	currentPosition -= correction;
-	// 	shape.setPosition(currentPosition);
-	// 	other.currentPosition += correction;
-	// 	other.shape.setPosition(other.currentPosition);
-// 	}
-// }
 
 const sf::CircleShape CircleObject::getShape() const {
 	return this->shape;
