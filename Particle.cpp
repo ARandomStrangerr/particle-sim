@@ -1,6 +1,4 @@
 #include "Particle.h"
-#include "SFML/System/Vector2.hpp"
-#include <cmath>
 
 CircleObject::CircleObject (float x, float y, float r, sf::Color color, float v_x, float v_y) : shape(r), previousPosition(x - v_x, y - v_y), currentPosition(x,y){
 	this->shape.setPosition(currentPosition);
