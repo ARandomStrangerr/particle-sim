@@ -1,191 +1,96 @@
-#include "Particle.h"
-#include "SFML/Graphics/Color.hpp"
-#include "SFML/Graphics/RenderWindow.hpp"
-#include "SFML/Window/Event.hpp"
-#include "SFML/Window/Keyboard.hpp"
-#include "SFML/Window/VideoMode.hpp"
-#include <functional>
-#include <mutex>
-#include <thread>
 #include <chrono>
+#include <iostream>
+#include <mutex>
+#include <string>
+#include <thread>
 #include <vector>
 
-void staticObject() {
-	CircleObject object(-10, -10, 30, sf::Color(205,180,219), 0, 0);
+#include "Object.h"
+#include "SFML/Graphics.hpp"
+#include "SFML/Graphics/Color.hpp"
+#include "SFML/Graphics/Font.hpp"
+#include "SFML/Graphics/RenderWindow.hpp"
+#include "SFML/Graphics/Text.hpp"
+#include "SFML/System/Vector2.hpp"
+#include "SFML/Window/Event.hpp"
+#include "SFML/Window/VideoMode.hpp"
 
-	sf::RenderWindow window(sf::VideoMode(600,600), "Draw one object on the screen");
+std::mutex lockObj;
+std::vector<Object> objs;
 
-	while (window.isOpen()) {
+void addObject(int objNum) {
+	std::vector<std::vector<int>> color = {{56, 102, 65}, {106, 153, 78}, {167, 201, 87}, {242, 232, 207}, {188, 71, 73}};
+	for (int i = 0; i < objNum; i++) {
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+		int colorIndex = i % 5;
+		Object obj (10 + (i * 2) % 5 , 100, 10, 2, 0, sf::Color(color[colorIndex][0], color[colorIndex][1], color[colorIndex][2]));
+		std::lock_guard<std::mutex> lock(lockObj);
+		objs.push_back(obj);
+	}
+}
+
+void one(){
+	sf::Font font;
+	if (!font.loadFromFile("/Library/Fonts/ProggyClean/ProggyCleanCENerdFont-Regular.ttf")) return;
+
+	sf::Text text;
+	text.setFont(font);
+	text.setCharacterSize(20);
+	text.setFillColor(sf::Color::White);
+	text.setPosition(10,10);
+	
+	sf::Vector2f a ({0, 200});
+	
+	float targetDt = 1.f/60.f;
+	
+	unsigned int width = 800, height = 600;
+	sf::RenderWindow window (sf::VideoMode(width, height), "Display Single Object");
+	
+	std::thread worker(addObject, 60);
+	
+	auto lastTimeStamp = std::chrono::high_resolution_clock::now();
+	while (window.isOpen()){
+		auto firstTimeStamp = std::chrono::high_resolution_clock::now();
+
 		sf::Event event;
 		while (window.pollEvent(event))
 			if (event.type == sf::Event::Closed)
 				window.close();
 		window.clear();
-		window.draw(object.getShape());
-		window.display();
-	}
-}
-
-void constantVelocityObject() {
-	float dt = 0.01;
-
-	// if we move A units buy 1 sec, then we move A*dt units by dt sec
-	CircleObject object (10, 10, 30, sf::Color(205,180,219), 500*dt, 500*dt);
-
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Draw An Object with Constant Velocity");
-
-	bool startSimulation = false;
-
-	while (window.isOpen()) {
-		sf::Event event;
-		while (window.pollEvent(event)){
-			if (event.type == sf::Event::Closed)
-				window.close();
-			if (event.type == sf::Event::KeyPressed)
-				if (event.key.code == sf::Keyboard::Space)
-					startSimulation = !startSimulation;
-		}
-		if (startSimulation) {
-			window.clear();
-			window.draw(object.getShape());
-			object.stayInsideScreen(800, 600);
-			object.move(dt); // calculate the object position after dt second
-			window.display();
-			std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(dt * 1000))); //sleep for that much time before updating
-		}
-	}
-}
-
-void freeFallObject() {
-	float dt = 0.01;
-
-	CircleObject object (30, 30, 10, sf::Color(205,180,219), 50*dt, 50*dt);
-
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Draw A Free Fall Object");
-
-	bool startSimulation = false;
-
-	while (window.isOpen()) {
-		sf::Event event;
-		while (window.pollEvent(event)){
-			if (event.type == sf::Event::Closed)
-				window.close();
-			if (event.type == sf::Event::KeyPressed)
-				if (event.key.code == sf::Keyboard::Space)
-					startSimulation = !startSimulation;
-		}
-		if (startSimulation){
-			window.clear();
-			window.draw(object.getShape());
-			object.accelerate(0, 981);
-			object.stayInsideScreen(800, 600);
-			object.move(dt); // calculate the object position after dt second
-			window.display();
-			std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(dt * 1000))); //sleep for that much time before updating
-		}
-	}
-}
-
-void twoObjects() {
-	float dt = 0.01;
-	CircleObject object1(200, 30, 10, sf::Color(205,180,219), 50*dt, 50*dt),
-		object2(400, 30, 10, sf::Color(205,180,219), -30*dt, 50*dt);
-
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Draw A Free Fall Object");
-
-	bool startSimulation = false;
-
-	while(window.isOpen()) {
-		sf::Event event;
-		if (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed)
-				window.close();
-			else if (event.type == sf::Event::KeyPressed) {
-				if (event.key.code == sf::Keyboard::Space)
-					startSimulation = !startSimulation;
-			}
-		}
-
-		if (startSimulation) {
-			window.clear();
-			window.draw(object1.getShape());
-			window.draw(object2.getShape());
-			object1.accelerate(0, 981);
-			object2.accelerate(0, 981);
-			object1.stayInsideScreen(800, 600);
-			object2.stayInsideScreen(800, 600);
-			object1.collide(object2);
-			object2.collide(object1);
-			object1.move(dt);
-			object2.move(dt);
-			window.display();
-			std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(dt * 1000)));
-		}
-	}
-}
-
-std::mutex objVecLock;
-void addObjects(std::vector<CircleObject>& objVec, int totalNumber, int dt) {
-	int color[5][3] = {{255, 214, 255}, {231, 198, 255}, {200, 182, 255}, {184, 192, 255}, {187, 209, 255}};
-	int radius = 10;
-	int increment = 5;
-	for (int i = 0; i < totalNumber; i++) {
-		if (radius == 30) increment = -5;
-		else if (radius == 5) increment = 5;
-		radius+=increment;
-		CircleObject obj (20, 20, radius, sf::Color(color[i % 5][0], color[i%5][1], color[i%5][2]), 300 * 0.01, 0);
+		auto currTimeStamp = std::chrono::high_resolution_clock::now();
+		float dt = std::chrono::duration<float>(currTimeStamp - lastTimeStamp).count();
+		lastTimeStamp = currTimeStamp;
 		{
-			std::lock_guard<std::mutex> guard(objVecLock);
-			objVec.push_back(obj);
-		}
-		std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(dt * 1000)));
-	}
-}
-void manyObjects() {
-	float dt = 0.01;
-
-	sf::RenderWindow window(sf::VideoMode(800,600), "Many Falling Objects");
-
-	std::vector<CircleObject> objVec;
-
-	bool startSimulation = false;
-
-		std::thread addBallThread(addObjects, std::ref(objVec), 20,1 );
-
-	while(window.isOpen()) {
-		sf::Event event;
-		if (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed)
-				window.close();
-			else if (event.type == sf::Event::KeyPressed) {
-				if (event.key.code == sf::Keyboard::Space) {
-					startSimulation = !startSimulation;
+			std::lock_guard<std::mutex> lock(lockObj);
+			for (int i = 0; i < objs.size(); i++){
+				for (int k = 0; k < 15; k++){
+					objs[i].touchWall(width, height);
+					for (int j = 0; j < objs.size(); j++) {
+						if (i == j) continue;
+						objs[i].touchOther(objs[j]);
+					}
 				}
+				objs[i].updatePos(dt, a); 
+				window.draw(objs[i].get());
 			}
 		}
-
-			window.clear();
-			for (int i = 0; i < objVec.size(); i++){
-				{
-					std::lock_guard<std::mutex> guard (objVecLock);
-					window.draw(objVec[i].getShape());
-					objVec[i].accelerate(0, 981);
-					objVec[i].stayInsideScreen(800, 600);
-					for (int k =7; k; k--) for (int j = 0; j < objVec.size(); j++) if (i!=j) objVec[i].collide(objVec[j]);
-					objVec[i].move(dt);
-					
-				}
-			}
-		
-
+		float fps = 1.f / dt;
+		text.setString(std::to_string((int) fps));
+		window.draw(text);
 		window.display();
-		std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(dt * 1000)));
-	}
 
-	addBallThread.join();
+		auto lastTimeStamp = std::chrono::high_resolution_clock::now();
+		dt = std::chrono::duration<float>(lastTimeStamp - firstTimeStamp).count();
+		if (dt < targetDt) {
+			float sleepTime = 	targetDt - dt;
+			std::this_thread::sleep_for(std::chrono::duration<float>(sleepTime));
+		}
+	}
+	worker.join();
 }
 
-int main(){
-	manyObjects();
+
+int main() {
+	one();
 	return 0;
 }

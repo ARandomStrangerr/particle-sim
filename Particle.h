@@ -1,7 +1,6 @@
 #ifndef PARTICAL_H
 #define PARTICAL_H
 
-#include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <cmath>
@@ -53,5 +52,6 @@ class CircleObject {
 		 */
 		const sf::CircleShape getShape() const;
 };
+
 
 #endif

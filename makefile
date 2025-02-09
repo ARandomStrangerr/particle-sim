@@ -1,17 +1,14 @@
-CXX = g++
-CXXFLAGS = -std=c++11 -I /opt/homebrew/Cellar/sfml/2.6.1/include
-LDFLAGS = -L /opt/homebrew/Cellar/sfml/2.6.1/lib
-LDLIBS = -lsfml-graphics -lsfml-window -lsfml-system
+compiler = g++
+flag = -std=c++20
 
-SRCS = main.cpp Particle.cpp
-OBJS = $(SRCS:.cpp=.o)
-EXEC = a.out
+headerFolder = -I /opt/homebrew/Cellar/sfml@2/2.6.2/include
+libFolder = -L /opt/homebrew/Cellar/sfml@2/2.6.2/lib
+lib = -lsfml-graphics -lsfml-window -lsfml-system
 
-all : $(EXEC)
+inpFile = main.cpp Object.cpp
+objFile = $(inpFile:.cpp=.o)
+outFile = a.out
 
-$(EXEC): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(LDLIBS) $^ -o $@
-	rm -f $^
+all:
+	$(compiler) $(flag) $(headerFolder) $(libFolder) $(lib) $(inpFile) -o $(outFile)
 
-clean:
-	rm -f $(OBJS) $(EXEC)
