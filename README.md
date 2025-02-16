@@ -30,3 +30,5 @@ brew install sfml@2
 <h2>Drawn an object on screen</h2>
 
 ![atl](https://github.com/ARandomStrangerr/particle-sim/blob/main/illustration/illu1.png)
+
+<h2>apply initial velocity to the object</h2>
