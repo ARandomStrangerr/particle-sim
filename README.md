@@ -28,3 +28,4 @@ to <a href="https://formulae.brew.sh/formula/sfml"><b>install sfml</b></a> on a 
 brew install sfml@2
 ```
 <h2>Drawn an object on screen</h2>
+![](illustration/illu1.jpg)
