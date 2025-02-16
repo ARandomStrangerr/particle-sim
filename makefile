@@ -5,7 +5,7 @@ headerFolder = -I /opt/homebrew/Cellar/sfml@2/2.6.2/include
 libFolder = -L /opt/homebrew/Cellar/sfml@2/2.6.2/lib
 lib = -lsfml-graphics -lsfml-window -lsfml-system
 
-inpFile = main.cpp Object.cpp
+inpFile = main.cpp Object.cpp ScreenGrid.cpp
 objFile = $(inpFile:.cpp=.o)
 outFile = a.out
 

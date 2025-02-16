@@ -8,8 +8,7 @@ Object::Object(float r, float posX, float posY, float initVelcX, float initVelcY
 	obj.setFillColor(color);
 }
 
-const sf::CircleShape& Object::get() {	
-	obj.setPosition(currPos);
+const sf::CircleShape& Object::get() const {
 	return this->obj;
 }
 
@@ -17,6 +16,7 @@ void Object::updatePos(const float dt, const sf::Vector2f& a) {
 	sf::Vector2f v = currPos - prevPos;
 	prevPos = currPos;
 	currPos = currPos + v + a * dt * dt;
+	obj.setPosition(currPos);
 	return;
 }
 
@@ -46,9 +46,7 @@ void Object::touchOther(Object& other){
 	if (distanceNorm < radiusSum) {
 		sf::Vector2f unitVec = distanceVec / distanceNorm;
 		float overlap = radiusSum - distanceNorm;
-		//prevPos = currPos;
 		currPos -= unitVec * (overlap / 2);
-		//other.prevPos = other.currPos;
 		other.currPos += unitVec * (overlap / 2);
 	}
 }

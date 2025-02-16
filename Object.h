@@ -4,6 +4,7 @@
 #include "SFML/Graphics/Color.hpp"
 #include "SFML/System/Vector2.hpp"
 #include "SFML/Graphics/CircleShape.hpp"
+
 class Object{
 	private:
 		sf::Vector2f prevPos, currPos;
@@ -26,7 +27,7 @@ class Object{
 		 * @return
 		 * sf::CircleShape& get the reference of the object.
 		 */
-		const sf::CircleShape& get();
+		const sf::CircleShape& get() const;
 
 		/**
 		 * update the position of the object
