@@ -40,11 +40,13 @@ with gravity, cross checking
 <h2>apply collision for objects</h2>
 
 <p>for each object on the screen, check this object with another object. and if those 2 objects overlap, each moves in opposite direction half of the overlap.</p>
-<p>at this step, the code run fine with roughly 300 objets on screen (I am running on a Macbook M2-2023)</p>
+<p>at this step, the code run fine with roughly 300 objets on screen (I am running on a Macbook Air M2-2023)</p>
 <h2>multi-threading</h2>
 now, we divide the screen into (cells).
 we put object into each cell and check the collision of balls into each cells.
 this has several reasons because it reduces the number of check. we only check balls that are reletively close to each other (rather than wasting time checking ball from top left of screen with the bottom right).
+
+with this setup, the number of objects on my screen can be up to 2000 objects with 60 fps
 
 ![alt](https://github.com/ARandomStrangerr/particle-sim/blob/main/illustration/illu2.gif)
 
@@ -66,3 +68,5 @@ Learn how to use `std::thread` 🧵, `std::lock_guard` 🔒, and `std::mutex`.
 Minor, how to make a `makefile`
 
 How to use `SFML@2.6.2`.
+
+How to do time lock fps.
