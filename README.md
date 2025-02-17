@@ -52,7 +52,7 @@ with this setup, the number of objects on my screen can be up to 2000 objects wi
 
 however, this introduce instability to the simulation. why?
 
-it is because it only checks for objects within its a cell, any objects colose to the border and overlap each other will not be checked.
+it is because it only checks for objects within its own cell, any objects colose to the border and overlap each other will not be checked.
 this creates and instance when those 2 overlap objects moves a bit then in the same cell, they will be check for overlap then adjust accordingly.
 which makes the simulation have balls fling arounds.
 
