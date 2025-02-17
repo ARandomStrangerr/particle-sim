@@ -32,3 +32,37 @@ brew install sfml@2
 ![atl](https://github.com/ARandomStrangerr/particle-sim/blob/main/illustration/illu1.png)
 
 <h2>apply initial velocity to the object</h2>
+<h2>apply constant velocity to the object</h2>
+<h2>apply "gravity" (constant acceleration) to the object</h2>
+<h2>simulate multiple objects on 1 thread</h2>
+
+with gravity, cross checking
+<h2>apply collision for objects</h2>
+
+<p>for each object on the screen, check this object with another object. and if those 2 objects overlap, each moves in opposite direction half of the overlap.</p>
+<p>at this step, the code run fine with roughly 300 objets on screen (I am running on a Macbook M2-2023)</p>
+<h2>multi-threading</h2>
+now, we divide the screen into (cells).
+we put object into each cell and check the collision of balls into each cells.
+this has several reasons because it reduces the number of check. we only check balls that are reletively close to each other (rather than wasting time checking ball from top left of screen with the bottom right).
+
+![alt](https://github.com/ARandomStrangerr/particle-sim/blob/main/illustration/illu2.gif)
+
+however, this introduce instability to the simulation. why?
+
+it is because it only checks for objects within its a cell, any objects colose to the border and overlap each other will not be checked.
+this creates and instance when those 2 overlap objects moves a bit then in the same cell, they will be check for overlap then adjust accordingly.
+which makes the simulation have balls fling arounds.
+
+to over comes this, we should check for overlap objects between adjacent cells.
+
+<h1>What to learn here?</h1>
+well, the most important thing with me is just how to derive the Storm verlet since I do Mathematics major after all.
+
+There is no numerical stability here since we do not care about it.
+
+Learn how to use `std::thread` 🧵, `std::lock_guard` 🔒, and `std::mutex`.
+
+Minor, how to make a `makefile`
+
+How to use `SFML@2.6.2`.
