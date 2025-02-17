@@ -67,7 +67,6 @@ void workerFcn(int threadNum, unsigned int width, unsigned int height, float dt,
 }
 
 void ScreenGrid::processObject(int numThread, float dt) {	
-	std::cout << std::endl;
 	itr = cell.begin();
 	std::vector<std::thread> threadVec;
 	for (int i = 0; i < numThread; i++) {

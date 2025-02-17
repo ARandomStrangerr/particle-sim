@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "Object.h"
+#include "SFML/Window/Keyboard.hpp"
 #include "ScreenGrid.h"
 
 #include "SFML/Graphics.hpp"
@@ -48,17 +49,20 @@ void one(){
 	unsigned int width = 800, height = 600;
 	sf::RenderWindow window (sf::VideoMode(width, height), "Display Single Object");
 	
+	std::this_thread::sleep_for(std::chrono::seconds(5));
+
 	std::thread addBallWorker(addObject, 800);
 	ScreenGrid screenGridWorker(width, height, 100);
 
 	auto lastTimeStamp = std::chrono::high_resolution_clock::now();
+	
+	bool flag = false;
 	while (window.isOpen()){
 		auto firstTimeStamp = std::chrono::high_resolution_clock::now();
 
 		sf::Event event;
 		while (window.pollEvent(event))
-			if (event.type == sf::Event::Closed)
-				window.close();
+			if (event.type == sf::Event::Closed) window.close();
 		window.clear();
 		auto currTimeStamp = std::chrono::high_resolution_clock::now();
 		float dt = std::chrono::duration<float>(currTimeStamp - lastTimeStamp).count();
@@ -91,21 +95,7 @@ void one(){
 	addBallWorker.join();
 }
 
-void two() {
-	unsigned int width = 800, height = 600;
-	sf::RenderWindow window (sf::VideoMode(width, height), "Display Single Object");
-	Object obj (50, 300,300,0,0,sf::Color::Red);
-	while (window.isOpen()){
-		sf::Event event;
-		while (window.pollEvent(event))
-			if (event.type == sf::Event::Closed)
-				window.close();
-		window.clear();
-		window.draw(obj.get());
-		window.display();
-	}
-}
 int main() {
-	two();
+	one();
 	return 0;
 };
